@@ -20,7 +20,7 @@ public class Assignment extends javax.swing.JFrame {
     
     ArrayList list;
     ListIterator iterator;
-    int current, next;
+    int current, total;
     Task t;
     
     public Assignment() {
@@ -28,7 +28,18 @@ public class Assignment extends javax.swing.JFrame {
         list=new ArrayList();
         iterator=list.listIterator();
         current=0;
-        next=0;
+        total=0;
+        
+        iterator.add(new Task("Homefun","Physics, Page 495"));
+        iterator.add(new Task("Homework","Math, Page 123"));
+        iterator.add(new Task("Life","Sustanance"));
+        while(iterator.hasPrevious()){
+            Task t=iterator.previous();
+            current=1;
+            total=3;
+            txtcurrent.setText(""+current);
+            txttotal.setText(""+total);
+        }
     }
 
     
@@ -57,7 +68,7 @@ public class Assignment extends javax.swing.JFrame {
         lblcurrent = new javax.swing.JLabel();
         txtcurrent = new javax.swing.JTextField();
         lblnext = new javax.swing.JLabel();
-        txtnext = new javax.swing.JTextField();
+        txttotal = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         btnfirst = new javax.swing.JButton();
         btnprevious = new javax.swing.JButton();
@@ -98,9 +109,9 @@ public class Assignment extends javax.swing.JFrame {
 
         txtcurrent.setText("0");
 
-        lblnext.setText("Next Task:");
+        lblnext.setText("Total Tasks:");
 
-        txtnext.setText("0");
+        txttotal.setText("0");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -114,7 +125,7 @@ public class Assignment extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtcurrent)
-                    .addComponent(txtnext))
+                    .addComponent(txttotal))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -126,7 +137,7 @@ public class Assignment extends javax.swing.JFrame {
                     .addComponent(txtcurrent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtnext, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txttotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblnext))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -153,6 +164,11 @@ public class Assignment extends javax.swing.JFrame {
         });
 
         btnnext.setText(">");
+        btnnext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnnextActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -212,6 +228,11 @@ public class Assignment extends javax.swing.JFrame {
         menuedit.add(menureplace);
 
         menurestore.setText("Restore");
+        menurestore.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menurestoreActionPerformed(evt);
+            }
+        });
         menuedit.add(menurestore);
 
         menuremove.setText("Remove");
@@ -303,23 +324,23 @@ public class Assignment extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "You must Enter the Required Information");
             return;
         }
-        if(next>0) iterator.next();
+        if(total>0) iterator.next();
         
         iterator.add(t);
         iterator.previous();
         current++;
-        next++;
+        total++;
         txtcurrent.setText(""+current);
-        txtnext.setText(""+next);
+        txttotal.setText(""+total);
         JOptionPane.showMessageDialog(this, "Task Added");
                 
     }//GEN-LAST:event_menunextActionPerformed
 
     private void btnlastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlastActionPerformed
-       if(current==next) return;
+       if(current==total) return;
        while(iterator.hasNext()) iterator.next();
        t=(Task)iterator.previous();
-       current=next;
+       current=total;
        
        txtcurrent.setText(""+current);
        txtname.setText(t.getName());
@@ -341,20 +362,20 @@ public class Assignment extends javax.swing.JFrame {
     }//GEN-LAST:event_menushowActionPerformed
 
     private void btnpreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnpreviousActionPerformed
-        if(current==next) return;
+        if(current==total) return;
         iterator.previous();
         t=(Task)iterator.next();
-        current=next;
+        current=total;
         txtcurrent.setText(""+current);
         txtname.setText(t.getName());
         txtdescription.setText(t.getDescription());
     }//GEN-LAST:event_btnpreviousActionPerformed
 
     private void btnfirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnfirstActionPerformed
-        if(current==next) return;
+        if(current==total) return;
         while(iterator.hasPrevious()) iterator.previous();
         t=(Task)iterator.next();
-        current=next;
+        current=total;
        
         txtcurrent.setText(""+current);
         txtname.setText(t.getName());
@@ -365,8 +386,23 @@ public class Assignment extends javax.swing.JFrame {
         txtname.setText("");
         txtdescription.setText("");
         txtcurrent.setText("");
-        txtnext.setText("");
+        txttotal.setText("");
     }//GEN-LAST:event_menuclearActionPerformed
+
+    private void btnnextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnnextActionPerformed
+
+    private void menurestoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menurestoreActionPerformed
+        if(list.size()==1){
+            txtdescription.setText(t.getDescription());
+            txtname.setText(t.getName());
+        }
+        iterator.next();
+        iterator.previous();
+        txtdescription.setText(t.getDescription());
+        txtname.setText(t.getName());
+    }//GEN-LAST:event_menurestoreActionPerformed
 
     /**
      * @param args the command line arguments
@@ -434,6 +470,6 @@ public class Assignment extends javax.swing.JFrame {
     private javax.swing.JTextField txtcurrent;
     private javax.swing.JTextArea txtdescription;
     private javax.swing.JTextField txtname;
-    private javax.swing.JTextField txtnext;
+    private javax.swing.JTextField txttotal;
     // End of variables declaration//GEN-END:variables
 }
